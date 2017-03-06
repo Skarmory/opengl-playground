@@ -6,6 +6,10 @@
 #include <GLFW\glfw3.h>
 #include <SOIL\SOIL.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "shader.h"
 
 
@@ -18,28 +22,14 @@ GLfloat vertices[] = {
 };
 
 GLuint indices[] = {
-	0, 1, 2,
-	0, 2, 3
+	0, 1, 3,
+	1, 2, 3
 };
-
-float opacity = 0.2f;
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
-	else if (key == GLFW_KEY_UP)
-	{
-		opacity += 0.1f;
-		if (opacity >= 1.0f)
-			opacity = 1.0f;
-	}
-	else if (key == GLFW_KEY_DOWN)
-	{
-		opacity -= 0.1f;
-		if (opacity <= 0.0f)
-			opacity = 0.0f;
-	}
 }
 
 int main(void)
@@ -68,10 +58,7 @@ int main(void)
 		return -1;
 	}
 
-	int width, height;
-	glfwGetFramebufferSize(window, &width, &height);
-
-	glViewport(0, 0, width, height);
+	glViewport(0, 0, 800, 600);
 
 	glfwSetKeyCallback(window, key_callback);
 
@@ -108,16 +95,17 @@ int main(void)
 	glBindVertexArray(0);
 
 	// Texture
+	int width, height;
 	GLuint texture1, texture2;
 	glGenTextures(1, &texture1);
 	glGenTextures(1, &texture2);
 
 	unsigned char* image = SOIL_load_image("../textures/container.jpg", &width, &height, 0, SOIL_LOAD_RGB);
 	glBindTexture(GL_TEXTURE_2D, texture1);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -128,8 +116,8 @@ int main(void)
 	glBindTexture(GL_TEXTURE_2D, texture2);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -154,16 +142,29 @@ int main(void)
 		glBindTexture(GL_TEXTURE_2D, texture2);
 		glUniform1i(glGetUniformLocation(shader_program.program, "tex2"), 1);
 
-		glUniform1f(glGetUniformLocation(shader_program.program, "opacity"), opacity);
+		glm::mat4 trans;
+		trans = glm::translate(trans, glm::vec3(0.5f, -0.5f, 0.0f));
+		trans = glm::rotate(trans, glm::radians((GLfloat)glfwGetTime() * 50.0f), glm::vec3(0.0, 0.0, 1.0f));
+		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
 
 		glBindVertexArray(vao);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
+		GLfloat scale_by = sin(glfwGetTime());
+		trans = glm::mat4();
+		trans = glm::translate(trans, glm::vec3(-0.5f, 0.5f, 0.0f));
+		trans = glm::scale(trans, glm::vec3(scale_by, scale_by, scale_by));
+		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "transform"), 1, GL_FALSE, glm::value_ptr(trans));
+
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 
 		glfwSwapBuffers(window);
 	}
 
-	glBindVertexArray(0);
+	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &vbo);
+	glDeleteBuffers(1, &ebo);
 
 	glfwTerminate();
 	return 0;
