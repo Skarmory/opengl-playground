@@ -1,6 +1,5 @@
 #version 330 core
 
-in vec3 colour;
 in vec2 tex_coord;
 
 uniform sampler2D tex1;
