@@ -11,6 +11,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include "shader.h"
+#include "camera.h"
 
 GLint WIDTH = 800;
 GLint HEIGHT = 600;
@@ -18,16 +19,16 @@ GLint HEIGHT = 600;
 GLfloat vertices[] = {
 	// Positions           // UVs
 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-	0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
 	-0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
 
 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
 	-0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 
@@ -38,24 +39,24 @@ GLfloat vertices[] = {
 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 	-0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 
 	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
 	-0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
 	-0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
 
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-	0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-	0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
 	-0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
 	-0.5f,  0.5f, -0.5f,  0.0f, 1.0f
 };
@@ -78,9 +79,7 @@ GLuint indices[] = {
 	1, 2, 3
 };
 
-glm::vec3 camera_position = glm::vec3(0.0f, 0.0f, 3.0f);
-glm::vec3 camera_front = glm::vec3(0.0f, 0.0f, -1.0f);
-glm::vec3 camera_up = glm::vec3(0.0f, 1.0f, 0.0f);
+Camera camera(glm::vec3(0.0f, 0.0f, 3.0f));
 
 bool keys[1024];
 bool first_mouse_input = true;
@@ -91,23 +90,16 @@ GLfloat last_frame = 0.0f;
 GLfloat last_x = WIDTH / 2.0f;
 GLfloat last_y = HEIGHT / 2.0f;
 
-GLfloat pitch = 0.0f;
-GLfloat yaw = -90;
-
-GLfloat fov = 45.0f;
-
 void move()
 {
-	GLfloat camera_speed = 5.0f * delta_time;
-
 	if (keys[GLFW_KEY_W])
-		camera_position += camera_speed * camera_front;
+		camera.process_keyboard(FORWARD, delta_time);
 	if (keys[GLFW_KEY_S])
-		camera_position -= camera_speed * camera_front;
+		camera.process_keyboard(BACKWARD, delta_time);
 	if (keys[GLFW_KEY_A])
-		camera_position -= glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
+		camera.process_keyboard(LEFT, delta_time);
 	if (keys[GLFW_KEY_D])
-		camera_position += glm::normalize(glm::cross(camera_front, camera_up)) * camera_speed;
+		camera.process_keyboard(RIGHT, delta_time);
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -138,34 +130,12 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 	last_x = xpos;
 	last_y = ypos;
 
-	GLfloat sensetivity = 0.05f;
-	xoffset *= sensetivity;
-	yoffset *= sensetivity;
-
-	yaw += xoffset;
-	pitch += yoffset;
-
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
-
-	glm::vec3 front;
-	front.x = cos(glm::radians(pitch)) * cos(glm::radians(yaw));
-	front.y = sin(glm::radians(pitch));
-	front.z = cos(glm::radians(pitch)) * sin(glm::radians(yaw));
-
-	camera_front = glm::normalize(front);
+	camera.process_mouse(xoffset, yoffset);
 }
 
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 {
-	if (fov >= 1.0f && fov <= 45.0f)
-		fov -= yoffset;
-	if (fov <= 1.0f)
-		fov = 1.0f;
-	if (fov >= 45.0f)
-		fov = 45.0f;
+	camera.process_scroll(yoffset);
 }
 
 int main(void)
@@ -227,9 +197,6 @@ int main(void)
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
 
-	/*glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);*/
-
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
 
@@ -290,15 +257,11 @@ int main(void)
 
 		glBindVertexArray(vao);
 
-		GLfloat radius = 10.f;
-		GLfloat cam_x = sin(glfwGetTime()) * radius;
-		GLfloat cam_z = cos(glfwGetTime()) * radius;
-
 		glm::mat4 view;
-		view = glm::lookAt(camera_position, camera_position + camera_front, camera_up);
+		view = camera.get_view_matrix();
 
 		glm::mat4 projection;
-		projection = glm::perspective(glm::radians(fov), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
+		projection = glm::perspective(camera.get_zoom(), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 1000.0f);
 
 		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
