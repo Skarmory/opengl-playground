@@ -15,48 +15,48 @@ GLint WIDTH = 800;
 GLint HEIGHT = 600;
 
 GLfloat vertices[] = {
-	// Positions        
-	-0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f, -0.5f,
-	 0.5f,  0.5f, -0.5f,
-	 0.5f,  0.5f, -0.5f,
-	-0.5f,  0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f,
+	// Positions          // Normals
+	-0.5f, -0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
+	 0.5f, -0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
+	 0.5f,  0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
+	-0.5f,  0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
+	-0.5f, -0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
 
-	-0.5f, -0.5f,  0.5f,
-	 0.5f, -0.5f,  0.5f,
-	 0.5f,  0.5f,  0.5f,
-	 0.5f,  0.5f,  0.5f,
-	-0.5f,  0.5f,  0.5f,
-	-0.5f, -0.5f,  0.5f,
+	-0.5f, -0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
 
-	-0.5f,  0.5f,  0.5f,
-	-0.5f,  0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f, -0.5f,
-	-0.5f, -0.5f,  0.5f,
-	-0.5f,  0.5f,  0.5f,
+	-0.5f,  0.5f,  0.5f,  -1.0f, 0.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  -1.0f, 0.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f,  -1.0f, 0.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f,  -1.0f, 0.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,  -1.0f, 0.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  -1.0f, 0.0f, 0.0f,
 
-	 0.5f,  0.5f,  0.5f,
-	 0.5f,  0.5f, -0.5f,
-	 0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f,  0.5f,
-	 0.5f,  0.5f,  0.5f,
+	 0.5f,  0.5f,  0.5f,   1.0f, 0.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f,
+	 0.5f, -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,
+	 0.5f, -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,   1.0f, 0.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,   1.0f, 0.0f, 0.0f,
 
-	-0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f, -0.5f,
-	 0.5f, -0.5f,  0.5f,
-	 0.5f, -0.5f,  0.5f,
-	-0.5f, -0.5f,  0.5f,
-	-0.5f, -0.5f, -0.5f,
+	-0.5f, -0.5f, -0.5f,   0.0f, -1.0f, 0.0f,
+	 0.5f, -0.5f, -0.5f,   0.0f, -1.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,   0.0f, -1.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,   0.0f, -1.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,   0.0f, -1.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f,   0.0f, -1.0f, 0.0f,
 
-	-0.5f,  0.5f, -0.5f,
-	 0.5f,  0.5f, -0.5f,
-	 0.5f,  0.5f,  0.5f,
-	 0.5f,  0.5f,  0.5f,
-	-0.5f,  0.5f,  0.5f,
-	-0.5f,  0.5f, -0.5f,
+	-0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,
 };
 
 bool keys[1024];
@@ -144,10 +144,11 @@ void main(void)
 
 	const GLchar* vpath = "../shaders/Playground 2/vshader.vs";
 	const GLchar* fpath = "../shaders/Playground 2/fshader.frag";
+	const GLchar* lamp_vpath = "../shaders/Playground 2/lamp_vshader.vs";
 	const GLchar* lamp_fpath = "../shaders/Playground 2/lamp_fshader.frag";
 
 	Shader shader_program(vpath, fpath);
-	Shader lamp_shader(vpath, lamp_fpath);
+	Shader lamp_shader(lamp_vpath, lamp_fpath);
 
 	GLuint cube_vao, lamp_vao, vbo;
 	glGenVertexArrays(1, &cube_vao);
@@ -158,18 +159,22 @@ void main(void)
 	glBindVertexArray(cube_vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
-	
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
+
 	// Bind arrays for lamp cube, array buffer already bound
 	glBindVertexArray(lamp_vao);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	glm::vec3 light_position(1.2f, 1.0f, 2.0f);
+	glm::vec3 light_position(1.2f, 0.0f, 2.0f);
 	glm::vec3 cube_position(0.0f, 0.0f, 0.0f);
 
 	while (!glfwWindowShouldClose(window))
@@ -181,19 +186,24 @@ void main(void)
 		glfwPollEvents();
 		move();
 
-		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader_program.use();
 
-		GLint object_colour_loc = glGetUniformLocation(shader_program.program, "object_colour");
-		GLint light_colour_loc = glGetUniformLocation(shader_program.program, "light_colour");
-		glUniform3f(object_colour_loc, 1.0f, 0.5f, 0.31f);
-		glUniform3f(light_colour_loc, 1.0f, 1.0f, 1.0f);
-
 		glm::mat4 model, view, projection;
 		view = camera.get_view_matrix();
 		projection = glm::perspective(camera.get_zoom(), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 1000.0f);
+
+		glm::vec3 view_position = camera.get_position();
+
+		GLint object_colour_loc = glGetUniformLocation(shader_program.program, "object_colour");
+		GLint light_colour_loc = glGetUniformLocation(shader_program.program, "light_colour");
+		GLint light_position_loc = glGetUniformLocation(shader_program.program, "light_position");
+
+		glUniform3f(object_colour_loc, 1.0f, 0.5f, 0.31f);
+		glUniform3f(light_colour_loc, 1.0f, 1.0f, 1.0f);
+		glUniform3f(light_position_loc, light_position.x, light_position.y, light_position.z);
 
 		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
@@ -205,8 +215,12 @@ void main(void)
 
 		lamp_shader.use();
 
+		light_position.x = sin(glfwGetTime()) * 2.0f;
+		light_position.z = cos(glfwGetTime()) * 2.0f;
+
 		model = glm::mat4();
 		model = glm::translate(model, light_position);
+		model = glm::rotate(model, glm::radians(180.0f * (GLfloat)glfwGetTime()), glm::vec3(0.0f, 1.0f, 0.0f));
 		model = glm::scale(model, glm::vec3(0.2f));
 
 		glUniformMatrix4fv(glGetUniformLocation(lamp_shader.program, "view"), 1, GL_FALSE, glm::value_ptr(view));
