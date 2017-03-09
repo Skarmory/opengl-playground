@@ -147,7 +147,7 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "OpenGL Playground", nullptr, nullptr);
+	GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "OpenGL Playground 1 - Textured Cubes and First Person Camera", nullptr, nullptr);
 	if (window == nullptr)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -173,8 +173,8 @@ int main(void)
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
 
-	const GLchar* vpath = "../shaders/vshader.vs";
-	const GLchar* fpath = "../shaders/fshader.frag";
+	const GLchar* vpath = "../shaders/Playground 1/vshader.vs";
+	const GLchar* fpath = "../shaders/Playground 1/fshader.frag";
 
 	Shader shader_program(vpath, fpath);
 
