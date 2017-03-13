@@ -15,48 +15,48 @@ GLint WIDTH = 800;
 GLint HEIGHT = 600;
 
 GLfloat vertices[] = {
-	// Positions          // Normals
-	-0.5f, -0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
-	 0.5f, -0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
-	 0.5f,  0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
-	 0.5f,  0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
-	-0.5f,  0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
-	-0.5f, -0.5f, -0.5f,   0.0f, 0.0f, -1.0f,
+	// Positions          Normals              UVs
+	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 
-	-0.5f, -0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
-	 0.5f, -0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
-	 0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
-	-0.5f,  0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
-	-0.5f, -0.5f,  0.5f,   0.0f, 0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 
-	-0.5f,  0.5f,  0.5f,  -1.0f, 0.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,  -1.0f, 0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  -1.0f, 0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,  -1.0f, 0.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,  -1.0f, 0.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,  -1.0f, 0.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-	 0.5f,  0.5f,  0.5f,   1.0f, 0.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,   1.0f, 0.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,   1.0f, 0.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,   1.0f, 0.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,   1.0f, 0.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+	 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-	-0.5f, -0.5f, -0.5f,   0.0f, -1.0f, 0.0f,
-	 0.5f, -0.5f, -0.5f,   0.0f, -1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,   0.0f, -1.0f, 0.0f,
-	 0.5f, -0.5f,  0.5f,   0.0f, -1.0f, 0.0f,
-	-0.5f, -0.5f,  0.5f,   0.0f, -1.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f,   0.0f, -1.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+	 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+	 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+	-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
 
-	-0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,
-	 0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,
-	 0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,
-	-0.5f,  0.5f,  0.5f,   0.0f, 1.0f, 0.0f,
-	-0.5f,  0.5f, -0.5f,   0.0f, 1.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+	 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
 };
 
 bool keys[1024];
@@ -163,24 +163,79 @@ void main(void)
 	glBindVertexArray(cube_vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(2);
 
 	// Bind arrays for lamp cube, array buffer already bound
 	glBindVertexArray(lamp_vao);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
+	int width, height;
+	GLuint diffuse_map, specular_map, emission_map;
+	glGenTextures(1, &diffuse_map);
+	glGenTextures(1, &specular_map);
+	glGenTextures(1, &emission_map);
+
+	unsigned char* image_data = SOIL_load_image("../textures/container2.png", &width, &height, 0, SOIL_LOAD_RGB);
+	glBindTexture(GL_TEXTURE_2D, diffuse_map);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	SOIL_free_image_data(image_data);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	image_data = SOIL_load_image("../textures/container2_specular.png", &width, &height, 0, SOIL_LOAD_RGB);
+	glBindTexture(GL_TEXTURE_2D, specular_map);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	SOIL_free_image_data(image_data);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	image_data = SOIL_load_image("../textures/matrix.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+	glBindTexture(GL_TEXTURE_2D, emission_map);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	SOIL_free_image_data(image_data);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
 	glm::vec3 light_position(1.2f, 0.5f, 2.0f);
 	glm::vec3 cube_position(0.0f, 0.0f, 0.0f);
-	glm::vec3 light_colour;
+	
+	shader_program.use();
+
+	// Material colours
+	glUniform1f(glGetUniformLocation(shader_program.program, "material.shininess"), 32.0f);
+	glUniform1i(glGetUniformLocation(shader_program.program, "material.diffuse"), 0);
+	glUniform1i(glGetUniformLocation(shader_program.program, "material.specular"), 1);
+	glUniform1i(glGetUniformLocation(shader_program.program, "material.emission"), 2);
+
+	// Light colours
+	glUniform3f(glGetUniformLocation(shader_program.program, "light.ambient"), .2f, .2f, .2f);
+	glUniform3f(glGetUniformLocation(shader_program.program, "light.diffuse"), .5f, .5f, .5f);
+	glUniform3f(glGetUniformLocation(shader_program.program, "light.specular"), 1.0f, 1.0f, 1.0f);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -194,41 +249,25 @@ void main(void)
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		shader_program.use();
-
-		light_colour.x = sin(glfwGetTime() * 2.0f);
-		light_colour.y = sin(glfwGetTime() * 0.75f);
-		light_colour.z = sin(glfwGetTime() * 1.5f);
-
-		glm::vec3 diffuse = light_colour * glm::vec3(0.5f);
-		glm::vec3 ambient = light_colour * glm::vec3(0.2f);
-
 		glm::mat4 model, view, projection;
 		view = camera.get_view_matrix();
 		projection = glm::perspective(camera.get_zoom(), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 1000.0f);
 
 		glm::vec3 view_position = camera.get_position();
 
-		// Material colours
-		GLint mat_ambient_loc = glGetUniformLocation(shader_program.program, "material.ambient");
-		GLint mat_diffuse_loc = glGetUniformLocation(shader_program.program, "material.diffuse");
-		GLint mat_specular_loc = glGetUniformLocation(shader_program.program, "material.specular");
-		GLint mat_shininess_loc = glGetUniformLocation(shader_program.program, "material.shininess");
-		
-		glUniform3f(mat_ambient_loc, 1.0f, 0.5f, 0.3f);
-		glUniform3f(mat_diffuse_loc, 1.0f, 0.5f, 0.3f);
-		glUniform3f(mat_specular_loc, 0.5f, 0.5f, 0.5f);
-		glUniform1f(mat_shininess_loc, 32.0f);
+		shader_program.use();
 
-		// Light properties
-		GLint light_position_loc = glGetUniformLocation(shader_program.program, "light_position");
-		GLint light_ambient_loc = glGetUniformLocation(shader_program.program, "light.ambient");
-		GLint light_diffuse_loc = glGetUniformLocation(shader_program.program, "light.diffuse");
-		GLint light_specular_loc = glGetUniformLocation(shader_program.program, "light.specular");
-		glUniform3f(light_position_loc, light_position.x, light_position.y, light_position.z);
-		glUniform3f(light_ambient_loc, ambient.x, ambient.y, ambient.z);
-		glUniform3f(light_diffuse_loc, diffuse.x, diffuse.y, diffuse.z);
-		glUniform3f(light_specular_loc, 1.0f, 1.0f, 1.0f);
+		// Set uniforms and bind textures
+		glUniform3f(glGetUniformLocation(shader_program.program, "light_position"), light_position.x, light_position.y, light_position.z);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, diffuse_map);
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, specular_map);
+
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, emission_map);
 
 		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
