@@ -80,6 +80,10 @@ void move()
 		camera.process_keyboard(LEFT, delta_time);
 	if (keys[GLFW_KEY_D])
 		camera.process_keyboard(RIGHT, delta_time);
+	if (keys[GLFW_KEY_SPACE])
+		camera.process_keyboard(UP, delta_time);
+	if (keys[GLFW_KEY_LEFT_CONTROL])
+		camera.process_keyboard(DOWN, delta_time);
 }
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode)
@@ -174,8 +178,9 @@ void main(void)
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 
-	glm::vec3 light_position(1.2f, 0.0f, 2.0f);
+	glm::vec3 light_position(1.2f, 0.5f, 2.0f);
 	glm::vec3 cube_position(0.0f, 0.0f, 0.0f);
+	glm::vec3 light_colour;
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -191,19 +196,39 @@ void main(void)
 
 		shader_program.use();
 
+		light_colour.x = sin(glfwGetTime() * 2.0f);
+		light_colour.y = sin(glfwGetTime() * 0.75f);
+		light_colour.z = sin(glfwGetTime() * 1.5f);
+
+		glm::vec3 diffuse = light_colour * glm::vec3(0.5f);
+		glm::vec3 ambient = light_colour * glm::vec3(0.2f);
+
 		glm::mat4 model, view, projection;
 		view = camera.get_view_matrix();
 		projection = glm::perspective(camera.get_zoom(), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 1000.0f);
 
 		glm::vec3 view_position = camera.get_position();
 
-		GLint object_colour_loc = glGetUniformLocation(shader_program.program, "object_colour");
-		GLint light_colour_loc = glGetUniformLocation(shader_program.program, "light_colour");
-		GLint light_position_loc = glGetUniformLocation(shader_program.program, "light_position");
+		// Material colours
+		GLint mat_ambient_loc = glGetUniformLocation(shader_program.program, "material.ambient");
+		GLint mat_diffuse_loc = glGetUniformLocation(shader_program.program, "material.diffuse");
+		GLint mat_specular_loc = glGetUniformLocation(shader_program.program, "material.specular");
+		GLint mat_shininess_loc = glGetUniformLocation(shader_program.program, "material.shininess");
+		
+		glUniform3f(mat_ambient_loc, 1.0f, 0.5f, 0.3f);
+		glUniform3f(mat_diffuse_loc, 1.0f, 0.5f, 0.3f);
+		glUniform3f(mat_specular_loc, 0.5f, 0.5f, 0.5f);
+		glUniform1f(mat_shininess_loc, 32.0f);
 
-		glUniform3f(object_colour_loc, 1.0f, 0.5f, 0.31f);
-		glUniform3f(light_colour_loc, 1.0f, 1.0f, 1.0f);
+		// Light properties
+		GLint light_position_loc = glGetUniformLocation(shader_program.program, "light_position");
+		GLint light_ambient_loc = glGetUniformLocation(shader_program.program, "light.ambient");
+		GLint light_diffuse_loc = glGetUniformLocation(shader_program.program, "light.diffuse");
+		GLint light_specular_loc = glGetUniformLocation(shader_program.program, "light.specular");
 		glUniform3f(light_position_loc, light_position.x, light_position.y, light_position.z);
+		glUniform3f(light_ambient_loc, ambient.x, ambient.y, ambient.z);
+		glUniform3f(light_diffuse_loc, diffuse.x, diffuse.y, diffuse.z);
+		glUniform3f(light_specular_loc, 1.0f, 1.0f, 1.0f);
 
 		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
