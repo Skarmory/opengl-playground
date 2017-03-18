@@ -14,6 +14,10 @@
 GLint WIDTH = 800;
 GLint HEIGHT = 600;
 
+struct Light {
+	glm::vec3 direction, ambient, diffuse, specular;
+};
+
 GLfloat vertices[] = {
 	// Positions          Normals              UVs
 	-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
@@ -57,6 +61,19 @@ GLfloat vertices[] = {
 	 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
 	-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
 	-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
+};
+
+glm::vec3 cube_positions[] = {
+	glm::vec3(0.0f, 0.0f, 0.0f),
+	glm::vec3(2.0f, 5.0f, -15.0f),
+	glm::vec3(-1.5f, -2.2f, -2.5f),
+	glm::vec3(-3.8f, -2.0f, -12.3f),
+	glm::vec3(2.4f, -0.4f, -3.4f),
+	glm::vec3(-1.7f, 3.0f, -7.5f),
+	glm::vec3(1.3f, -2.0f, -2.5f),
+	glm::vec3(1.5f, 2.0f, -2.5f),
+	glm::vec3(1.5f, 0.2f, -1.5f),
+	glm::vec3(-1.3f, 1.0f, -1.5f),
 };
 
 bool keys[1024];
@@ -210,7 +227,7 @@ void main(void)
 	SOIL_free_image_data(image_data);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	image_data = SOIL_load_image("../textures/matrix.jpg", &width, &height, 0, SOIL_LOAD_RGB);
+	/*image_data = SOIL_load_image("../textures/matrix.jpg", &width, &height, 0, SOIL_LOAD_RGB);
 	glBindTexture(GL_TEXTURE_2D, emission_map);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
@@ -219,10 +236,10 @@ void main(void)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image_data);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	SOIL_free_image_data(image_data);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);*/
 
-	glm::vec3 light_position(1.2f, 0.5f, 2.0f);
-	glm::vec3 cube_position(0.0f, 0.0f, 0.0f);
+	/*glm::vec3 light_position(1.2f, 0.5f, 2.0f);
+	glm::vec3 cube_position(0.0f, 0.0f, 0.0f);*/
 	
 	shader_program.use();
 
@@ -232,10 +249,14 @@ void main(void)
 	glUniform1i(glGetUniformLocation(shader_program.program, "material.specular"), 1);
 	glUniform1i(glGetUniformLocation(shader_program.program, "material.emission"), 2);
 
-	// Light colours
+	Light light;
+	light.direction = glm::vec3(-0.2f, -1.0f, -0.3);
+
+	// Light properties
 	glUniform3f(glGetUniformLocation(shader_program.program, "light.ambient"), .2f, .2f, .2f);
 	glUniform3f(glGetUniformLocation(shader_program.program, "light.diffuse"), .5f, .5f, .5f);
 	glUniform3f(glGetUniformLocation(shader_program.program, "light.specular"), 1.0f, 1.0f, 1.0f);
+	glUniform3f(glGetUniformLocation(shader_program.program, "light.direction"), light.direction.x, light.direction.y, light.direction.z);
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -254,11 +275,12 @@ void main(void)
 		projection = glm::perspective(camera.get_zoom(), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 1000.0f);
 
 		glm::vec3 view_position = camera.get_position();
+		glUniform3f(glGetUniformLocation(shader_program.program, "view_pos"), view_position.x, view_position.y, view_position.z);
 
 		shader_program.use();
 
 		// Set uniforms and bind textures
-		glUniform3f(glGetUniformLocation(shader_program.program, "light_position"), light_position.x, light_position.y, light_position.z);
+		/*glUniform3f(glGetUniformLocation(shader_program.program, "light.position"), light_position.x, light_position.y, light_position.z);*/
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, diffuse_map);
@@ -266,21 +288,30 @@ void main(void)
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specular_map);
 
-		glActiveTexture(GL_TEXTURE2);
-		glBindTexture(GL_TEXTURE_2D, emission_map);
+		/*glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, emission_map);*/
 
 		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
 		glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
 		glBindVertexArray(cube_vao);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		for (GLuint i = 0; i < sizeof(cube_positions) / sizeof(glm::vec3); i++)
+		{
+			glm::mat4 model;
+			model = glm::translate(model, cube_positions[i]);
+			model = glm::rotate(model, glm::radians((GLfloat)i * 20.f), glm::vec3(1.0f, 0.3f, 0.5f));
+
+			glUniformMatrix4fv(glGetUniformLocation(shader_program.program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+			glDrawArrays(GL_TRIANGLES, 0, 36);
+		}
 		glBindVertexArray(0);
 
-		lamp_shader.use();
+		/*lamp_shader.use();
 
-		light_position.x = sin(glfwGetTime()) * 2.0f;
-		light_position.z = cos(glfwGetTime()) * 2.0f;
+		light_position.x = sin(glfwGetTime()) * 3.0f;
+		light_position.z = cos(glfwGetTime()) * 3.0f;
 
 		model = glm::mat4();
 		model = glm::translate(model, light_position);
@@ -293,7 +324,7 @@ void main(void)
 
 		glBindVertexArray(lamp_vao);
 		glDrawArrays(GL_TRIANGLES, 0, 36);
-		glBindVertexArray(0);
+		glBindVertexArray(0);*/
 
 		glfwSwapBuffers(window);
 	}
