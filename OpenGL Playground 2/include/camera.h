@@ -55,6 +55,11 @@ public:
 		return zoom;
 	}
 
+	glm::vec3 get_front(void)
+	{
+		return front;
+	}
+
 	glm::vec3 get_position(void)
 	{
 		return position;

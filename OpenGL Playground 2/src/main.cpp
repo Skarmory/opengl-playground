@@ -1,4 +1,5 @@
 #define GLEW_STATIC
+#define _CRT_SECURE_NO_WARNINGS
 
 #include <GLEW\glew.h>
 #include <GLFW\glfw3.h>
@@ -10,6 +11,7 @@
 
 #include "shader.h"
 #include "camera.h"
+#include "light.h"
 
 GLint WIDTH = 800;
 GLint HEIGHT = 600;
@@ -183,7 +185,7 @@ void main(void)
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)(6 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(2);
 
-	// Bind arrays for lamp cube, array buffer already bound
+	// Bind arrays for lamp cube. Array buffer already bound
 	glBindVertexArray(lamp_vao);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (GLvoid*)0);
 	glEnableVertexAttribArray(0);
@@ -199,7 +201,7 @@ void main(void)
 	GLuint diffuse_map, specular_map, emission_map;
 	glGenTextures(1, &diffuse_map);
 	glGenTextures(1, &specular_map);
-	glGenTextures(1, &emission_map);
+	//glGenTextures(1, &emission_map);
 
 	unsigned char* image_data = SOIL_load_image("../textures/container2.png", &width, &height, 0, SOIL_LOAD_RGB);
 	glBindTexture(GL_TEXTURE_2D, diffuse_map);
@@ -233,9 +235,6 @@ void main(void)
 	glGenerateMipmap(GL_TEXTURE_2D);
 	SOIL_free_image_data(image_data);
 	glBindTexture(GL_TEXTURE_2D, 0);*/
-
-	glm::vec3 light_position(1.2f, 0.5f, 2.0f);
-	//glm::vec3 cube_position(0.0f, 0.0f, 0.0f);*/
 	
 	shader_program.use();
 
@@ -243,8 +242,15 @@ void main(void)
 	glUniform1f(glGetUniformLocation(shader_program.program, "material.shininess"), 32.0f);
 	glUniform1i(glGetUniformLocation(shader_program.program, "material.diffuse"), 0);
 	glUniform1i(glGetUniformLocation(shader_program.program, "material.specular"), 1);
-	
-	//glUniform3f(glGetUniformLocation(shader_program.program, "light.direction"), light.direction.x, light.direction.y, light.direction.z);
+
+	SpotLight slight(&shader_program, glm::vec3(.05f, .05f, .05f), glm::vec3(.8f, .8f, .8f), glm::vec3(1.f, 1.f, 1.f), camera.get_position(), camera.get_front(), glm::cos(glm::radians(17.5f)), glm::cos(glm::radians(15.5f)), 1.f, .09f, .032f);
+	DirectionalLight dlight(&shader_program, glm::vec3(-.2f, -1.f, -.3f), glm::vec3(.05f, .05f, .05f), glm::vec3(.4f, .4f, .4f), glm::vec3(.5f, .5f, .5f));
+	PointLight point_lights[4] = {
+		PointLight(&shader_program, glm::vec3(.05f, .05f, .05f), glm::vec3(.8f, .8f, .8f), glm::vec3(1.f, 1.f, 1.f), 0, glm::vec3(.7f, .2f, 2.f), 1.f, .09f, .032f),
+		PointLight(&shader_program, glm::vec3(.05f, .05f, .05f), glm::vec3(.8f, .8f, .8f), glm::vec3(1.f, 1.f, 1.f), 1, glm::vec3(2.3f, -3.3f, -4.f), 1.f, .09f, .032f),
+		PointLight(&shader_program, glm::vec3(.05f, .05f, .05f), glm::vec3(.8f, .8f, .8f), glm::vec3(1.f, 1.f, 1.f), 2, glm::vec3(-4.f, 2.f, -12.f), 1.f, .09f, .032f),
+		PointLight(&shader_program, glm::vec3(.05f, .05f, .05f), glm::vec3(.8f, .8f, .8f), glm::vec3(1.f, 1.f, 1.f), 3, glm::vec3(0.f, 0.f, -3.f), 1.f, .09f, .032f)
+	};
 
 	while (!glfwWindowShouldClose(window))
 	{
@@ -255,21 +261,17 @@ void main(void)
 		glfwPollEvents();
 		move();
 
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader_program.use();
 
 		glm::vec3 view_position = camera.get_position();
+		glm::vec3 camera_front = camera.get_front();
+
+		slight.update(view_position, camera_front);
 		glUniform3f(glGetUniformLocation(shader_program.program, "view_position"), view_position.x, view_position.y, view_position.z);
-		glUniform3f(glGetUniformLocation(shader_program.program, "light.position"), light_position.x, light_position.y, light_position.z);
-		glUniform3f(glGetUniformLocation(shader_program.program, "light.ambient"), .2f, .2f, .2f);
-		glUniform3f(glGetUniformLocation(shader_program.program, "light.diffuse"), .5f, .5f, .5f);
-		glUniform3f(glGetUniformLocation(shader_program.program, "light.specular"), 1.0f, 1.0f, 1.0f);
-		glUniform1f(glGetUniformLocation(shader_program.program, "light.constant"), 1.0f);
-		glUniform1f(glGetUniformLocation(shader_program.program, "light.linear"), 0.07f);
-		glUniform1f(glGetUniformLocation(shader_program.program, "light.quadratic"), 0.017f);
-		
+
 		glm::mat4 model, view, projection;
 		view = camera.get_view_matrix();
 		projection = glm::perspective(camera.get_zoom(), (GLfloat)WIDTH / (GLfloat)HEIGHT, 0.1f, 100.0f);
@@ -282,6 +284,7 @@ void main(void)
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specular_map);
 
+		// Draw the boxes
 		glBindVertexArray(cube_vao);
 		for (GLuint i = 0; i < sizeof(cube_positions) / sizeof(glm::vec3); i++)
 		{
@@ -296,21 +299,23 @@ void main(void)
 		glBindVertexArray(0);
 
 		lamp_shader.use();
-		
-		light_position.x = sin(glfwGetTime()) * 3.0f;
-		light_position.z = cos(glfwGetTime()) * 3.0f;
-
-		model = glm::mat4();
-		model = glm::translate(model, light_position);
-		model = glm::rotate(model, glm::radians(180.0f * (GLfloat)glfwGetTime()), glm::vec3(0.0f, 1.0f, 0.0f));
-		model = glm::scale(model, glm::vec3(0.2f));
 
 		glUniformMatrix4fv(glGetUniformLocation(lamp_shader.program, "view"), 1, GL_FALSE, glm::value_ptr(view));
 		glUniformMatrix4fv(glGetUniformLocation(lamp_shader.program, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
-		glUniformMatrix4fv(glGetUniformLocation(lamp_shader.program, "model"), 1, GL_FALSE, glm::value_ptr(model));
 
+		// Draw spinning cubes to represent the point lights
 		glBindVertexArray(lamp_vao);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
+		for (int i = 0; i < sizeof(point_lights) / sizeof(PointLight); i++)
+		{
+			model = glm::mat4();
+			model = glm::translate(model, point_lights[i].position);
+			model = glm::rotate(model, glm::radians(180.0f * (GLfloat)glfwGetTime()), glm::vec3(0.0f, 1.0f, 0.0f));
+			model = glm::scale(model, glm::vec3(0.2f));
+
+			glUniformMatrix4fv(glGetUniformLocation(lamp_shader.program, "model"), 1, GL_FALSE, glm::value_ptr(model));
+
+			glDrawArrays(GL_TRIANGLES, 0, 36);	
+		}
 		glBindVertexArray(0);
 
 		glfwSwapBuffers(window);
